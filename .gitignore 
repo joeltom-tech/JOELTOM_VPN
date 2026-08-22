@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+joeltom-web/node_modules/
+joeltom-web/dist/
+joeltom-web/frontend/node_modules/
+joeltom-web/frontend/dist/
