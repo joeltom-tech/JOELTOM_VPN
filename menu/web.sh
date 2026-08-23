@@ -360,9 +360,9 @@ function ntw_get_token() {
 function ntw_create_admin() {
   local token="$1"
   clear
-  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
   echo -e "${LN}┃${NC} ${BG}              CRÉER COMPTE ADMIN                ${NC} ${LN}┃${NC}"
-  echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
+  echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
 
   read -rp "  Nouveau username : " new_user
@@ -391,9 +391,9 @@ function ntw_create_admin() {
 function ntw_list_admins() {
   local token="$1"
   clear
-  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━┓${NC}"
   echo -e "${LN}┃${NC} ${BG}             LISTE DES ADMINS                   ${NC} ${LN}┃${NC}"
-  echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
+  echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
 
   local result
@@ -496,10 +496,10 @@ function ntw_promote_admin() {
 # ─── MANAGER CLIENT ───────────────────────────────────────────────────────────
 function ntw_manager_client() {
   clear
-  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━┓${NC}"
   echo -e "${LN}┃${NC} ${BG}               MANAGER CLIENT                   ${NC} ${LN}┃${NC}"
-  echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
-  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+  echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
+  echo -e "${LN}┏━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
   echo -e "${LN}┃${NC}  Les clients sont gérés via l'interface web."
   echo -e "${LN}┃${NC}  Accédez au site pour créer/modifier/supprimer."
   echo -e "${LN}┃${NC}"
@@ -511,7 +511,7 @@ function ntw_manager_client() {
   echo -e "${LN}┃${NC} [4] • Suspendre un client (via API)"
   echo -e "${LN}┃${NC} [5] • Supprimer un client (via API)"
   echo -e "${LN}┃${NC} [0] • Retour"
-  echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
+  echo -e "${LN}┗━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
   read -rp "  Sélectionner : " opt
   echo ""
@@ -663,9 +663,9 @@ function ntw_delete_client() {
 # ─── MANAGER PLANS ────────────────────────────────────────────────────────────
 function ntw_manager_plans() {
   clear
-  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━┓${NC}"
   echo -e "${LN}┃${NC} ${BG}           MANAGER PLANS / PRODUITS              ${NC} ${LN}┃${NC}"
-  echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
+  echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━┛${NC}"
 
   local token
   token=$(ntw_get_token) || { katashie_web_menu; return; }
@@ -733,7 +733,7 @@ function ntw_create_plan() {
 # ─── LOGS & AUDIT ─────────────────────────────────────────────────────────────
 function ntw_view_logs() {
   clear
-  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
   echo -e "${LN}┃${NC} ${BG}               LOGS & AUDIT                     ${NC} ${LN}┃${NC}"
   echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
@@ -767,7 +767,7 @@ else:
 # ─── SERVICE CONTROL ─────────────────────────────────────────────────────────
 function ntw_service_control() {
   clear
-  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+  echo -e "${LN}┏━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
   echo -e "${LN}┃${NC} ${BG}             CONTRÔLE DU SERVICE                 ${NC} ${LN}┃${NC}"
   echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
@@ -795,9 +795,9 @@ function ntw_service_control() {
 # ─── UPDATE ──────────────────────────────────────────────────────────────────
 function ntw_update() {
   clear
-  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+  echo -e "${LN}┏━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
   echo -e "${LN}┃${NC} ${BG}          MISE À JOUR JOELTOM TUNNEL WEB           ${NC} ${LN}┃${NC}"
-  echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
+  echo -e "${LN}┗━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
   echo -e "  Cette option télécharge la dernière version depuis GitHub"
   echo -e "  et redéploie le panel en conservant vos données (DB, config)."
@@ -838,7 +838,7 @@ function ntw_update() {
 
   # Ré-application du correctif ancrage absolu PUBLIC_DIR et CORS
   log_info "Application des correctifs (PUBLIC_DIR, CORS)..."
-  sed -i "s|const PUBLIC_DIR = .*|const PUBLIC_DIR = '/opt/katashie-vpn-web/public';|g" \
+  sed -i "s|const PUBLIC_DIR = .*|const PUBLIC_DIR = '/opt/joeltom-vpn-web/public';|g" \
       "$JOELTOM_WEB_DIR/server/index.ts" 2>/dev/null || true
   sed -i 's/callback(null, false);/callback(null, true);/g' \
       "$JOELTOM_WEB_DIR/server/index.ts" 2>/dev/null || true
