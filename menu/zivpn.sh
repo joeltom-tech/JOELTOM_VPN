@@ -9,10 +9,10 @@ export DOMAIN=$(cat /etc/xray/domain)
 export MYIP=$(wget -qO- ipv4.icanhazip.com)
 add_zivpn() {
 clear
-echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
 echo -e "${LN}┃${NC} ${BG}               ADD ZIVPN ACCOUNT                ${NC} ${LN}┃${NC}"
-echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
-echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+echo -e "${LN}┗━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
+echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━┓${NC}"
 while true; do
 read -rp "  Enter username: " user
 if [[ -z "$user" ]]; then
@@ -60,14 +60,14 @@ clear
 echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
 echo -e "${LN}┃${NC} ${BG}                  ZIVPN ACCOUNT                 ${NC} ${LN}┃${NC}"
 echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
-echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+echo -e "${LN}┏━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
 echo -e "${LN}┃${NC}  ${GREEN}User $user added successfully!${NC}"
 echo -e "${LN}┃${NC}"
 echo -e "${LN}┃${NC}  IPV4      : $MYIP"
 echo -e "${LN}┃${NC}  Domain    : $DOMAIN"
 echo -e "${LN}┃${NC}  Password  : $pass"
 echo -e "${LN}┃${NC}  Expiry    : $exp"
-echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
+echo -e "${LN}┗━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
 echo -e "${LN}●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●${NC}"
 echo ""
 read -n 1 -s -r -p " Press any key to return to menu..."
