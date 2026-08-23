@@ -27,9 +27,9 @@ if [ -f /root/joeltom.sh ]; then
     # Cela évite le EOF lorsque autoinstall.sh est lancé avec:
     # curl ... | sudo bash
     if [ -r /dev/tty ]; then
-        exec bash /root/katashie.sh </dev/tty
+        exec bash /root/joeltom.sh </dev/tty
     else
-        exec bash /root/katashie.sh
+        exec bash /root/joeltom.sh
     fi
 else
     echo "[-] ERREUR FATALE: Impossible d'atteindre le dépôt GitHub."

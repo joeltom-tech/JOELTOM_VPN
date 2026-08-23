@@ -6,7 +6,7 @@ export NC='\033[0m'
 export GR='\033[32m'
 export RD='\033[31m'
 export MYIP=$(wget -qO- ipv4.icanhazip.com)
-UI_LOCAL="/usr/local/lib/katashie-ui.sh"
+UI_LOCAL="/usr/local/lib/joeltom-ui.sh"
 if [ -f "$UI_LOCAL" ]; then source "$UI_LOCAL"; fi
 
 # --- CONFIGURATION DU DÉPÔT CENTRAL (CORRIGÉ) ---
@@ -46,7 +46,7 @@ setup_host_time() {
 
 prepare_ui() {
     mkdir -p /usr/local/lib
-    wget -q -O /usr/local/lib/joeltom-ui.sh "${SERVER_HOST}/module/joeltom-ui.sh" 2>/dev/null || cp "$(dirname "$0")/module/katashie-ui.sh" /usr/local/lib/joeltom-ui.sh 2>/dev/null || true
+    wget -q -O /usr/local/lib/joeltom-ui.sh "${SERVER_HOST}/module/joeltom-ui.sh" 2>/dev/null || cp "$(dirname "$0")/module/joeltom-ui.sh" /usr/local/lib/joeltom-ui.sh 2>/dev/null || true
     chmod 644 /usr/local/lib/joeltom-ui.sh 2>/dev/null || true
     [ -f /usr/local/lib/joeltom-ui.sh ] && source /usr/local/lib/joeltom-ui.sh
 }
@@ -150,7 +150,7 @@ function add_domain() {
     clear
     echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
     echo -e "${LN}┃${NC} ${BG}                 DOMAIN PANEL                   ${NC} ${LN}┃${NC}"
-    echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
+    echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━━━━━━━━━━━━━┛${NC}"
     echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
     echo -e "${LN}┃${NC} Domain has been set successfully!"
     echo -e "${LN}┃${NC} Current Domain: ${domain}"
@@ -190,11 +190,11 @@ install_packages() {
 }
 
 run_scripts() {
-    mkdir -p /var/log/katashie
+    mkdir -p /var/log/joeltom
     scripts=("xray.sh" "sshws.sh" "vpn.sh" "websocket.sh" "setup_zivpn.sh" "setup_dns.sh" "setup_udp.sh" "validator.sh")
     for script in "${scripts[@]}"; do
         url="${SERVER_HOST}/core/${script}"
-        log_file="/var/log/katashie/${script}.log"
+        log_file="/var/log/joeltom/${script}.log"
         printf '%b\n' "${K_CYAN}  ◐ Téléchargement ${script}...${K_RESET}"
         if ! wget -q --timeout=30 --tries=3 "$url" -O "$script"; then
             printf '%b\n' "${K_RED}  ✘ Impossible de télécharger ${script}${K_RESET}"
@@ -225,9 +225,9 @@ run_scripts() {
                 printf '\r%b\n' "${K_GREEN}  ✔ ${script} terminé${K_RESET}"
             else
                 printf '\r%b\n' "${K_RED}  ✘ ${script} a échoué (code ${rc})${K_RESET}"
-                printf '%b\n' "${K_RED}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${K_RESET}"
+                printf '%b\n' "${K_RED}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${K_RESET}"
                 printf '%b\n' "${K_RED}┃ ERREUR — détails techniques : ${script}${K_RESET}"
-                printf '%b\n' "${K_RED}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${K_RESET}"
+                printf '%b\n' "${K_RED}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${K_RESET}"
                 tail -n 45 "$log_file" 2>/dev/null || true
                 printf '%b\n' "${K_YELLOW}Journal complet : ${log_file}${K_RESET}"
                 return "$rc"
@@ -240,7 +240,7 @@ run_scripts() {
 install_menu() {
     mkdir -p /usr/local/sbin
     for script in dns zivpn expiry domain iptools menu socks ssh status trojan vless vmess netguard port log tgbot uninstall update web fastdns; do
-        tmp="/tmp/katashie-menu-${script}"
+        tmp="/tmp/joeltom-menu-${script}"
         if ! wget -q --timeout=30 --tries=3 -O "$tmp" "${SERVER_HOST}/menu/${script}.sh"; then
             printf '%b\n' "${K_RED}  ✘ Échec du téléchargement du module menu/${script}.sh${K_RESET}"
             return 1
@@ -328,7 +328,7 @@ doty_completed() {
     echo -e "${LN}┃${NC} ${BG}              INSTALLATION COMPLETE               ${NC} ${LN}┃${NC}"
     echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
     echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-    echo -e "${LN}┃${NC} ${GR}Congratulations! KATASHIE VPN is ready.${NC}"
+    echo -e "${LN}┃${NC} ${GR}Congratulations! JOELTOM VPN is ready.${NC}"
     echo -e "${LN}┃${NC}"
     echo -e "${LN}┃${NC} Domain: ${domain}"
     echo -e "${LN}┃${NC} VPS IP: ${MYIP}"
@@ -355,7 +355,7 @@ enable_bbr() {
 main() {
     check_root_virt
     check_os
-    [ -f /usr/local/lib/katashie-ui.sh ] && k_brand || true
+    [ -f /usr/local/lib/joeltom-ui.sh ] && k_brand || true
     setup_host_time
     prepare_ui
     prepare_env
