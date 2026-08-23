@@ -16,5 +16,3 @@ TROJAN NTLS            : 443
 
 SOCKS TLS              : 443
 SOCKS NTLS             : 80
-
-V2RAY-DNS              : 237 (TCP) + 5400 (UDP FastDNS)
