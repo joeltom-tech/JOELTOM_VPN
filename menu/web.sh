@@ -1,8 +1,8 @@
-UI="/usr/local/lib/katashie-ui.sh"; [ -f "$UI" ] && source "$UI"
+UI="/usr/local/lib/joeltom-ui.sh"; [ -f "$UI" ] && source "$UI"
 #!/bin/bash
 # ============================================================
-#  Menu 18 — KATASHIE VPN Web
-#  Manages the KATASHIE VPN Web panel from terminal.
+#  Menu 18 — JOELTOM VPN Web
+#  Manages the JOELTOM VPN Web panel from terminal.
 # ============================================================
 
 LN='\e[36m'
@@ -12,13 +12,13 @@ RD='\e[31m'
 GR='\e[32m'
 YL='\e[33m'
 
-KATASHIE_WEB_DIR="/opt/katashie-vpn-web"
-CONFIG_DIR="/etc/katashie-vpn-web"
+JOELTOM_WEB_DIR="/opt/joeltom-vpn-web"
+CONFIG_DIR="/etc/joeltom-vpn-web"
 CONFIG_FILE="$CONFIG_DIR/config.json"
-SERVICE="katashie-web"
-INSTALL_SH="$KATASHIE_WEB_DIR/install.sh"
-KATASHIE_REPO_URL="https://github.com/abesskamer237/KATASHIE_VPN.git"
-TMP_WEB_SRC="/tmp/katashie-web-src-$$"
+SERVICE="joeltom-web"
+INSTALL_SH="$JOELTOM_WEB_DIR/install.sh"
+JOELTOM_REPO_URL="https://github.com/joeltom-tech/JOELTOM_VPN.git"
+TMP_WEB_SRC="/tmp/joeltom-web-src-$$"
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -49,7 +49,7 @@ PYEOF
 }
 
 web_is_installed() {
-  [ -f "$KATASHIE_WEB_DIR/dist/server/index.js" ]
+  [ -f "$JOELTOM_WEB_DIR/dist/server/index.js" ]
 }
 
 web_is_running() {
@@ -83,30 +83,30 @@ resolve_web_source_dir() {
   base="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
   # 1) bundled next to menu dir in repository clone
-  src="$base/../katashie-web"
+  src="$base/../joeltom-web"
   if [ -d "$src" ] && [ -f "$src/install.sh" ]; then
     echo "$src"
     return 0
   fi
 
   # 2) already copied on server where menu expects it
-  src="/usr/local/sbin/katashie-web"
+  src="/usr/local/sbin/joeltom-web"
   if [ -d "$src" ] && [ -f "$src/install.sh" ]; then
     echo "$src"
     return 0
   fi
 
   # 3) already installed app source
-  src="/opt/katashie-vpn-web"
+  src="/opt/joeltom-vpn-web"
   if [ -d "$src" ] && [ -f "$src/install.sh" ]; then
     echo "$src"
     return 0
   fi
 
-  # 4) fallback: shallow clone repository in /tmp and use katashie-web folder
+  # 4) fallback: shallow clone repository in /tmp and use joeltom-web folder
   rm -rf "$TMP_WEB_SRC"
-  if git clone --depth 1 "$KATASHIE_REPO_URL" "$TMP_WEB_SRC" >/dev/null 2>&1; then
-    src="$TMP_WEB_SRC/katashie-web"
+  if git clone --depth 1 "$JOELTOM_REPO_URL" "$TMP_WEB_SRC" >/dev/null 2>&1; then
+    src="$TMP_WEB_SRC/joeltom-web"
     if [ -d "$src" ] && [ -f "$src/install.sh" ]; then
       echo "$src"
       return 0
@@ -143,8 +143,8 @@ api_call() {
 }
 
 # ─── MAIN MENU ────────────────────────────────────────────────────────────────
-function katashie_web_menu() {
-  [ -f "$UI" ] && k_header "KATASHIE VPN • WEB" || clear
+function joeltom_web_menu() {
+  [ -f "$UI" ] && k_header "JOELTOM VPN • WEB" || clear
   local status_str
   if web_is_running; then
     status_str="${GR}RUNNING${NC}"
@@ -156,7 +156,7 @@ function katashie_web_menu() {
   url=$(get_web_url 2>/dev/null || echo "http://localhost:2087")
 
   echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-  echo -e "${LN}┃${NC} ${BG}           KATASHIE TUNNEL WEB — MENU 18           ${NC} ${LN}┃${NC}"
+  echo -e "${LN}┃${NC} ${BG}           JOELTOM TUNNEL WEB — MENU 18           ${NC} ${LN}┃${NC}"
   echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
   echo -e "${LN}┃${NC}  Status  : ${status_str}"
@@ -189,8 +189,8 @@ function katashie_web_menu() {
   echo -e "${LN}┃${NC} [4] • Manager Plans / Produits"
   echo -e "${LN}┃${NC} [5] • Logs & Audit"
   echo -e "${LN}┃${NC} [6] • Statut & Contrôle du service"
-  echo -e "${LN}┃${NC} [7] • Mettre à jour KATASHIE VPN Web"
-  echo -e "${LN}┃${NC} [8] • Désinstaller KATASHIE VPN Web"
+  echo -e "${LN}┃${NC} [7] • Mettre à jour JOELTOM VPN Web"
+  echo -e "${LN}┃${NC} [8] • Désinstaller JOELTOM VPN Web"
   echo -e "${LN}┃${NC} [0] • Retour"
   echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo -e "${LN}●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●${NC}"
@@ -216,33 +216,33 @@ function katashie_web_menu() {
 function ntw_install() {
   clear
   echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-  echo -e "${LN}┃${NC} ${BG}         INSTALLATION — KATASHIE TUNNEL WEB         ${NC} ${LN}┃${NC}"
+  echo -e "${LN}┃${NC} ${BG}         INSTALLATION — JOELTOM TUNNEL WEB         ${NC} ${LN}┃${NC}"
   echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
-  echo -e "  Ce script va installer l'interface web KATASHIE Tunnel."
+  echo -e "  Ce script va installer l'interface web JOELTOM Tunnel."
   echo -e "  Vous aurez besoin de définir un identifiant admin."
   echo ""
 
   local src_dir
   if src_dir="$(resolve_web_source_dir)"; then
     bash "$src_dir/install.sh"
-  elif [ -f /opt/katashie-vpn-web/install.sh ]; then
-    bash /opt/katashie-vpn-web/install.sh
+  elif [ -f /opt/joeltom-vpn-web/install.sh ]; then
+    bash /opt/joeltom-vpn-web/install.sh
   else
     echo -e "${RD}  [ERROR] Source install script not found.${NC}"
     echo -e "  Expected one of:"
     echo -e "    - /usr/local/sbin/katashie-web/install.sh"
-    echo -e "    - /opt/katashie-vpn-web/install.sh"
-    echo -e "    - <repo>/katashie-web/install.sh"
+    echo -e "    - /opt/joeltom-vpn-web/install.sh"
+    echo -e "    - <repo>/joeltom-web/install.sh"
     echo -e "  Tip: check internet access if auto-fetch failed."
     wait_key
-    katashie_web_menu
+    joeltom_web_menu
     return
   fi
 
   rm -rf "$TMP_WEB_SRC" 2>/dev/null || true
   wait_key
-  katashie_web_menu
+  joeltom_web_menu
 }
 
 # ─── CHANGE CREDENTIALS ───────────────────────────────────────────────────────
@@ -281,7 +281,7 @@ function ntw_change_credentials() {
   if [ -n "$new_pass" ] && [ "$new_pass" != "$new_pass2" ]; then
     echo -e "${RD}  [ERROR] Les mots de passe ne correspondent pas.${NC}"
     wait_key
-    katashie_web_menu
+    joeltom_web_menu
     return
   fi
 
@@ -306,7 +306,7 @@ function ntw_change_credentials() {
   fi
 
   wait_key
-  katashie_web_menu
+  joeltom_web_menu
 }
 
 # ─── MANAGER ADMIN ────────────────────────────────────────────────────────────
@@ -693,7 +693,7 @@ else:
 
   case "$opt" in
     1) ntw_create_plan "$token" ;;
-    0) katashie_web_menu ;;
+    0) joeltom_web_menu ;;
     *) ntw_manager_plans ;;
   esac
 }
@@ -784,7 +784,7 @@ function ntw_service_control() {
     2) systemctl stop "$SERVICE" && echo -e "  ${YL}Service arrêté.${NC}" ;;
     3) systemctl restart "$SERVICE" && echo -e "  ${GR}Service redémarré.${NC}" ;;
     4) journalctl -u "$SERVICE" -n 50 --no-pager | less -F ;;
-    0) katashie_web_menu; return ;;
+    0) joeltom_web_menu; return ;;
     *) ;;
   esac
 
@@ -796,7 +796,7 @@ function ntw_service_control() {
 function ntw_update() {
   clear
   echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-  echo -e "${LN}┃${NC} ${BG}          MISE À JOUR KATASHIE TUNNEL WEB           ${NC} ${LN}┃${NC}"
+  echo -e "${LN}┃${NC} ${BG}          MISE À JOUR JOELTOM TUNNEL WEB           ${NC} ${LN}┃${NC}"
   echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
   echo -e "  Cette option télécharge la dernière version depuis GitHub"
@@ -806,7 +806,7 @@ function ntw_update() {
   if [[ "$confirm" != "oui" ]]; then
     echo -e "  ${YL}Annulé.${NC}"
     wait_key
-    katashie_web_menu
+    joeltom_web_menu
     return
   fi
 
@@ -816,42 +816,42 @@ function ntw_update() {
   tmp_src="$(mktemp -d)"
 
   log_info "Téléchargement de la dernière version depuis GitHub..."
-  if ! git clone --depth 1 "$KATASHIE_REPO_URL" "$tmp_src" 2>&1 | tail -5; then
+  if ! git clone --depth 1 "$JOELTOM_REPO_URL" "$tmp_src" 2>&1 | tail -5; then
     echo -e "  ${RD}[ERROR] Impossible de cloner depuis GitHub. Vérifiez votre connexion.${NC}"
     rm -rf "$tmp_src"
     wait_key
-    katashie_web_menu
+    joeltom_web_menu
     return
   fi
 
-  local src_dir="$tmp_src/katashie-web"
+  local src_dir="$tmp_src/joeltom-web"
   if [ ! -d "$src_dir" ] || [ ! -f "$src_dir/install.sh" ]; then
-    echo -e "  ${RD}[ERROR] Dossier katashie-web introuvable dans le dépôt cloné.${NC}"
+    echo -e "  ${RD}[ERROR] Dossier joeltom-web introuvable dans le dépôt cloné.${NC}"
     rm -rf "$tmp_src"
     wait_key
-    katashie_web_menu
+    joeltom_web_menu
     return
   fi
 
-  log_info "Copie des nouveaux fichiers dans $KATASHIE_WEB_DIR..."
-  cp -rf "$src_dir"/. "$KATASHIE_WEB_DIR/"
+  log_info "Copie des nouveaux fichiers dans $JOELTOM_WEB_DIR..."
+  cp -rf "$src_dir"/. "$JOELTOM_WEB_DIR/"
 
   # Ré-application du correctif ancrage absolu PUBLIC_DIR et CORS
   log_info "Application des correctifs (PUBLIC_DIR, CORS)..."
   sed -i "s|const PUBLIC_DIR = .*|const PUBLIC_DIR = '/opt/katashie-vpn-web/public';|g" \
-      "$KATASHIE_WEB_DIR/server/index.ts" 2>/dev/null || true
+      "$JOELTOM_WEB_DIR/server/index.ts" 2>/dev/null || true
   sed -i 's/callback(null, false);/callback(null, true);/g' \
-      "$KATASHIE_WEB_DIR/server/index.ts" 2>/dev/null || true
+      "$JOELTOM_WEB_DIR/server/index.ts" 2>/dev/null || true
 
   log_info "Compilation de l'interface graphique (frontend)..."
-  if [ -d "$KATASHIE_WEB_DIR/frontend" ]; then
-    cd "$KATASHIE_WEB_DIR/frontend"
+  if [ -d "$JOELTOM_WEB_DIR/frontend" ]; then
+    cd "$JOELTOM_WEB_DIR/frontend"
     npm install --quiet 2>&1 | tail -3
     npm run build 2>&1 | tail -8
   fi
 
   log_info "Compilation du serveur Node.js..."
-  cd "$KATASHIE_WEB_DIR"
+  cd "$JOELTOM_WEB_DIR"
   npm install --production=false --quiet 2>&1 | tail -3
   npm run build 2>&1 | tail -5
 
@@ -859,13 +859,13 @@ function ntw_update() {
   rm -rf "$tmp_src"
 
   # Update the watchdog script (in case it changed)
-  if [ -f "$KATASHIE_WEB_DIR/install.sh" ]; then
-    bash "$KATASHIE_WEB_DIR/install.sh" --watchdog-only 2>/dev/null || true
+  if [ -f "$JOELTOM_WEB_DIR/install.sh" ]; then
+    bash "$JOELTOM_WEB_DIR/install.sh" --watchdog-only 2>/dev/null || true
   fi
   # Ensure watchdog cron exists
-  if [ ! -f /etc/cron.d/katashie-web-watchdog ]; then
-    echo "* * * * * root /usr/local/bin/katashie-web-watchdog.sh" > /etc/cron.d/katashie-web-watchdog
-    chmod 644 /etc/cron.d/katashie-web-watchdog
+  if [ ! -f /etc/cron.d/joeltom-web-watchdog ]; then
+    echo "* * * * * root /usr/local/bin/joeltom-web-watchdog.sh" > /etc/cron.d/joeltom-web-watchdog
+    chmod 644 /etc/cron.d/joeltom-web-watchdog
   fi
 
   systemctl restart "$SERVICE"
@@ -873,14 +873,14 @@ function ntw_update() {
 
   echo -e "  ${GR}[OK] Mise à jour terminée ! Le panel est maintenant à jour.${NC}"
   wait_key
-  katashie_web_menu
+  joeltom_web_menu
 }
 
 # ─── UNINSTALL ────────────────────────────────────────────────────────────────
 function ntw_uninstall() {
   clear
   echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-  echo -e "${LN}┃${NC} ${BG}          DÉSINSTALLER KATASHIE TUNNEL WEB          ${NC} ${LN}┃${NC}"
+  echo -e "${LN}┃${NC} ${BG}          DÉSINSTALLER JOELTOM TUNNEL WEB          ${NC} ${LN}┃${NC}"
   echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
   echo -e "  ${RD}ATTENTION: Cette action supprimera l'interface web.${NC}"
@@ -889,7 +889,7 @@ function ntw_uninstall() {
   if [[ "$confirm" != "oui" ]]; then
     echo -e "  ${YL}Annulé.${NC}"
     wait_key
-    katashie_web_menu
+    joeltom_web_menu
     return
   fi
 
@@ -902,7 +902,7 @@ function ntw_uninstall() {
   systemctl daemon-reload
 
   echo -e "  ${YL}Suppression des fichiers...${NC}"
-  rm -rf "$KATASHIE_WEB_DIR"
+  rm -rf "$JOELTOM_WEB_DIR"
 
   if [[ "$keep_data" != "oui" ]]; then
     rm -rf "$CONFIG_DIR"
@@ -911,10 +911,10 @@ function ntw_uninstall() {
     echo -e "  ${GR}Données conservées dans $CONFIG_DIR${NC}"
   fi
 
-  echo -e "  ${GR}[OK] KATASHIE VPN Web désinstallé.${NC}"
+  echo -e "  ${GR}[OK] JOELTOM VPN Web désinstallé.${NC}"
   wait_key
   menu
 }
 
 # ─── ENTRY POINT ─────────────────────────────────────────────────────────────
-katashie_web_menu
+joeltom_web_menu
