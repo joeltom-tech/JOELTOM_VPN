@@ -7,7 +7,7 @@ from modules import system_core, ssh_core, admin_core, xray_core, zivpn_core
 
 logging.basicConfig(level=logging.WARNING, format='%(asctime)s %(levelname)s %(message)s')
 
-CONFIG_FILE = '/etc/katashie_bot/config.json'
+CONFIG_FILE = '/etc/joetom_bot/config.json'
 
 MENU_IMAGE_URL = "https://github.com/user-attachments/assets/baf681b1-820a-428d-85cf-703c25ff498b"
 
@@ -79,7 +79,7 @@ def send_welcome(message):
     bot.send_photo(
         message.chat.id,
         MENU_IMAGE_URL,
-        caption="<b>🟢 KATASHIE VPN - C2 SERVER</b>\nSélectionnez un module :",
+        caption="<b>🟢 JOELTOM VPN - C2 SERVER</b>\nSélectionnez un module :",
         parse_mode="HTML",
         reply_markup=main_menu_keyboard()
     )
@@ -95,7 +95,7 @@ def home_callback(call):
     bot.send_photo(
         call.message.chat.id,
         MENU_IMAGE_URL,
-        caption="<b>🟢 KATASHIE VPN - C2 SERVER</b>\nSélectionnez un module :",
+        caption="<b>🟢 JOELTOM VPN - C2 SERVER</b>\nSélectionnez un module :",
         parse_mode="HTML",
         reply_markup=main_menu_keyboard()
     )
