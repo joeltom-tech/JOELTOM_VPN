@@ -168,7 +168,7 @@ function joeltom_web_menu() {
   if ! web_is_installed; then
     echo -e "${LN}┃${NC} ${YL}  KATASHIE VPN Web is NOT installed.${NC}"
     echo -e "${LN}┃${NC}"
-    echo -e "${LN}┃${NC} ${GR}[1]${NC} • Install KATASHIE VPN Web"
+    echo -e "${LN}┃${NC} ${GR}[1]${NC} • Install JOELTOM VPN Web"
     echo -e "${LN}┃${NC} ${GR}[0]${NC} • Return to main menu"
     echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
     echo ""
@@ -231,7 +231,7 @@ function ntw_install() {
   else
     echo -e "${RD}  [ERROR] Source install script not found.${NC}"
     echo -e "  Expected one of:"
-    echo -e "    - /usr/local/sbin/katashie-web/install.sh"
+    echo -e "    - /usr/local/sbin/joeltom-web/install.sh"
     echo -e "    - /opt/joeltom-vpn-web/install.sh"
     echo -e "    - <repo>/joeltom-web/install.sh"
     echo -e "  Tip: check internet access if auto-fetch failed."
