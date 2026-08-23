@@ -1,4 +1,4 @@
-UI="/usr/local/lib/katashie-ui.sh"; [ -f "$UI" ] && source "$UI"
+UI="/usr/local/lib/joeltom-ui.sh"; [ -f "$UI" ] && source "$UI"
 export LN='[34m'
 export BG='[44m'
 export NC='[0m'
@@ -26,7 +26,7 @@ nameserver $dns2" | sudo tee /etc/resolv.conf > /dev/null
 fi
 }
 dns_menu() {
-[ -f "$UI" ] && k_header "KATASHIE VPN • DNS" || clear
+[ -f "$UI" ] && k_header "JOELTOM VPN • DNS" || clear
 echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
 echo -e "${LN}┃${NC} ${BG}                   DNS PANEL                    ${NC} ${LN}┃${NC}"
 echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
