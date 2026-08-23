@@ -1,6 +1,6 @@
-UI="/usr/local/lib/katashie-ui.sh"; [ -f "$UI" ] && source "$UI"
+UI="/usr/local/lib/joeltom-ui.sh"; [ -f "$UI" ] && source "$UI"
 #!/bin/bash
-[ -f "$UI" ] && k_header "KATASHIE VPN • TGBOT" || clear
+[ -f "$UI" ] && k_header "JOELTOM VPN • TGBOT" || clear
 LN='\e[36m'
 NC='\e[0m'
 BG='\e[44m'
@@ -8,7 +8,7 @@ RD='\e[31m'
 GR='\e[32m'
 
 echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-echo -e "${LN}┃${NC} ${BG}           INSTALLATION DE KATASHIE BOT            ${NC} ${LN}┃${NC}"
+echo -e "${LN}┃${NC} ${BG}           INSTALLATION DE JOELTOM BOT            ${NC} ${LN}┃${NC}"
 echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
 echo -e ""
 echo -e " Ce module va relier votre serveur à Telegram."
@@ -26,8 +26,8 @@ apt-get install -y python3 python3-pip git >/dev/null 2>&1
 pip3 install pyTelegramBotAPI psutil >/dev/null 2>&1
 
 echo -e "${GR}[+] Création sécurisée de la base de données...${NC}"
-mkdir -p /etc/katashie_bot
-cat <<JSON > /etc/katashie_bot/config.json
+mkdir -p /etc/joeltom_bot
+cat <<JSON > /etc/joeltom_bot/config.json
 {
   "bot_token": "$bot_token",
   "super_admin": $admin_id,
@@ -35,26 +35,26 @@ cat <<JSON > /etc/katashie_bot/config.json
 }
 JSON
 
-echo -e "${GR}[+] Téléchargement complet du moteur KATASHIE C2 (Fichiers + Modules)...${NC}"
+echo -e "${GR}[+] Téléchargement complet du moteur JOELTOM C2 (Fichiers + Modules)...${NC}"
 cd /tmp
 rm -rf repo_temp
-git clone https://github.com/abesskamer237/KATASHIE_VPN.git repo_temp >/dev/null 2>&1
+git clone https://github.com/joeltom-tech/JOELTOM_VPN.git repo_temp >/dev/null 2>&1
 # On copie TOUT le dossier (le routeur et les modules)
-cp -r repo_temp/katashie_core_bot/* /etc/katashie_bot/
+cp -r repo_temp/joeltom_core_bot/* /etc/joeltom_bot/
 rm -rf repo_temp
 
 echo -e "${GR}[+] Configuration et alignement du Démon système...${NC}"
 # On force l'écriture d'un service parfait avec les bons chemins
-cat << 'SRV' > /etc/systemd/system/katashie_bot.service
+cat << 'SRV' > /etc/systemd/system/joeltom_bot.service
 [Unit]
-Description=KATASHIE Bot Telegram C2
+Description=JOELTOM Bot Telegram C2
 After=network.target
 
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/etc/katashie_bot
-ExecStart=/usr/bin/python3 /etc/katashie_bot/katashie_bot.py
+WorkingDirectory=/etc/joeltom_bot
+ExecStart=/usr/bin/python3 /etc/joeltom_bot/katashie_bot.py
 Restart=always
 RestartSec=3
 
@@ -63,7 +63,7 @@ WantedBy=multi-user.target
 SRV
 
 systemctl daemon-reload
-systemctl enable --now katashie_bot
+systemctl enable --now joeltom_bot
 systemctl restart katashie_bot
 
 echo -e "\n${GR}[+] Base de données verrouillée et Bot activé.${NC}"
