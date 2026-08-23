@@ -1,4 +1,4 @@
-UI="/usr/local/lib/katashie-ui.sh"; [ -f "$UI" ] && source "$UI"
+UI="/usr/local/lib/joeltom-ui.sh"; [ -f "$UI" ] && source "$UI"
 LN='[34m'
 BG='[44m'
 NC='[0m'
@@ -50,7 +50,7 @@ echo -e "${RD}Not Running${NC} (Error)"
 fi
 }
 restart_all_services() {
-[ -f "$UI" ] && k_header "KATASHIE VPN • STATUS" || clear
+[ -f "$UI" ] && k_header "JOELTOM VPN • STATUS" || clear
 echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
 echo -e "${LN}┃${NC} ${BG}            RESTARTING ALL SERVICES             ${NC} ${LN}┃${NC}"
 echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
