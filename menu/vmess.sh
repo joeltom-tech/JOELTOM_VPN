@@ -1,5 +1,5 @@
-UI="/usr/local/lib/katashie-ui.sh"; [ -f "$UI" ] && source "$UI"
-[ -f "$UI" ] && k_header "KATASHIE VPN • VMESS" || clear
+UI="/usr/local/lib/joeltom-ui.sh"; [ -f "$UI" ] && source "$UI"
+[ -f "$UI" ] && k_header "JOELTOM VPN • VMESS" || clear
 readonly LN='[34m'
 readonly BG='[44m'
 readonly NC='[0m'
