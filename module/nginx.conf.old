@@ -1,26 +1,28 @@
-user  www-data;
-worker_processes  3;
+user www-data;
+worker_processes 3;
 
 events {
-    worker_connections  4096;
+    worker_connections 4096;
 }
 
 http {
     include       mime.types;
     default_type  application/octet-stream;
 
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
 
-    access_log  /var/log/nginx/access.log  main;
-    error_log   /var/log/nginx/error.log warn;
+    access_log /var/log/nginx/access.log main;
+    error_log  /var/log/nginx/error.log warn;
 
-    sendfile       on;
-    tcp_nopush     on;
-    tcp_nodelay    on;
-    keepalive_timeout  65;
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
     types_hash_max_size 2048;
+
+    # Real IP / Cloudflare
     set_real_ip_from 127.0.0.0/8;
     set_real_ip_from 103.21.244.0/22;
     set_real_ip_from 103.22.200.0/22;
@@ -37,6 +39,7 @@ http {
     set_real_ip_from 190.93.240.0/20;
     set_real_ip_from 197.234.240.0/22;
     set_real_ip_from 198.41.128.0/17;
+
     set_real_ip_from 2400:cb00::/32;
     set_real_ip_from 2606:4700::/32;
     set_real_ip_from 2803:f800::/32;
@@ -47,9 +50,13 @@ http {
 
     real_ip_header X-Forwarded-For;
 
+    # =========================================================
+    # MAIN SERVER
+    # =========================================================
     server {
         listen 80;
         listen [::]:80;
+
         listen 443 ssl http2 reuseport;
         listen [::]:443 ssl http2 reuseport;
 
@@ -57,18 +64,30 @@ http {
 
         ssl_certificate     /etc/xray/xray.crt;
         ssl_certificate_key /etc/xray/xray.key;
-        ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+ECDSA+AES128:EECDH+aRSA+AES128:RSA+AES128:EECDH+ECDSA+AES256:EECDH+aRSA+AES256:RSA+AES256:EECDH+ECDSA+3DES:EECDH+aRSA+3DES:RSA+3DES:!MD5;
-        ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
+
+        ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:
+                    EECDH+ECDSA+AES128:EECDH+aRSA+AES128:
+                    RSA+AES128:EECDH+ECDSA+AES256:
+                    EECDH+aRSA+AES256:RSA+AES256:
+                    EECDH+ECDSA+3DES:EECDH+aRSA+3DES:
+                    RSA+3DES:!MD5;
+
+        ssl_protocols TLSv1.2 TLSv1.3;
         ssl_prefer_server_ciphers on;
 
         root /home/vps/public_html;
- 
+
+        # -----------------------------------------------------
+        # VLESS WebSocket
+        # -----------------------------------------------------
         location /vless {
             if ($http_upgrade != "websocket") {
-                rewrite /(.*) /vless break;
-            }            
+                rewrite ^/(.*)$ /vless break;
+            }
+
             proxy_redirect off;
             proxy_pass http://127.0.0.1:14016;
+
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
@@ -77,12 +96,17 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
 
+        # -----------------------------------------------------
+        # VMESS WebSocket
+        # -----------------------------------------------------
         location /vmess {
             if ($http_upgrade != "websocket") {
-                rewrite /(.*) /vmess break;
+                rewrite ^/(.*)$ /vmess break;
             }
+
             proxy_redirect off;
             proxy_pass http://127.0.0.1:23456;
+
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
@@ -91,12 +115,17 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
 
+        # -----------------------------------------------------
+        # TROJAN WebSocket
+        # -----------------------------------------------------
         location /trws {
             if ($http_upgrade != "websocket") {
-                rewrite /(.*) /trws break;
-            }            
+                rewrite ^/(.*)$ /trws break;
+            }
+
             proxy_redirect off;
             proxy_pass http://127.0.0.1:25432;
+
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
@@ -105,12 +134,17 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
 
+        # -----------------------------------------------------
+        # SHADOWSOCKS WebSocket
+        # -----------------------------------------------------
         location /ssws {
             if ($http_upgrade != "websocket") {
-                rewrite /(.*) /ssws break;
-            }              
+                rewrite ^/(.*)$ /ssws break;
+            }
+
             proxy_redirect off;
             proxy_pass http://127.0.0.1:30300;
+
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
@@ -119,12 +153,17 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
 
+        # -----------------------------------------------------
+        # DEFAULT WEBSOCKET
+        # -----------------------------------------------------
         location / {
             if ($http_upgrade != "websocket") {
-                rewrite /(.*) / break;
-            }               
+                rewrite ^/(.*)$ / break;
+            }
+
             proxy_redirect off;
             proxy_pass http://127.0.0.1:700;
+
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
@@ -132,55 +171,83 @@ http {
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
- 
+
+        # -----------------------------------------------------
+        # VLESS gRPC
+        # -----------------------------------------------------
         location /vless-grpc {
             if ($content_type !~ "^application/grpc") {
                 return 404;
-            }            
+            }
+
             client_max_body_size 0;
+
             grpc_set_header X-Real-IP $remote_addr;
             grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             grpc_set_header Host $host;
+
             grpc_pass grpc://127.0.0.1:24456;
         }
 
+        # -----------------------------------------------------
+        # VMESS gRPC
+        # -----------------------------------------------------
         location /vmess-grpc {
             if ($content_type !~ "^application/grpc") {
                 return 404;
-            }            
+            }
+
             client_max_body_size 0;
+
             grpc_set_header X-Real-IP $remote_addr;
             grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             grpc_set_header Host $host;
+
             grpc_pass grpc://127.0.0.1:31234;
         }
 
+        # -----------------------------------------------------
+        # TROJAN gRPC
+        # -----------------------------------------------------
         location /trojan-grpc {
             if ($content_type !~ "^application/grpc") {
                 return 404;
-            }            
+            }
+
             client_max_body_size 0;
+
             grpc_set_header X-Real-IP $remote_addr;
             grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             grpc_set_header Host $host;
+
             grpc_pass grpc://127.0.0.1:33456;
         }
 
+        # -----------------------------------------------------
+        # SHADOWSOCKS gRPC
+        # -----------------------------------------------------
         location /ss-grpc {
             if ($content_type !~ "^application/grpc") {
                 return 404;
-            }            
+            }
+
             client_max_body_size 0;
+
             grpc_set_header X-Real-IP $remote_addr;
             grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             grpc_set_header Host $host;
+
             grpc_pass grpc://127.0.0.1:30310;
         }
     }
 
-    server { ## VLESS
+    # =========================================================
+    # VLESS
+    # =========================================================
+    server {
         listen 2086;
         listen [::]:2086;
+
         listen 2087 ssl http2 reuseport;
         listen [::]:2087 ssl http2 reuseport;
 
@@ -188,29 +255,41 @@ http {
 
         ssl_certificate     /etc/xray/xray.crt;
         ssl_certificate_key /etc/xray/xray.key;
-        ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+ECDSA+AES128:EECDH+aRSA+AES128:RSA+AES128:EECDH+ECDSA+AES256:EECDH+aRSA+AES256:RSA+AES256:EECDH+ECDSA+3DES:EECDH+aRSA+3DES:RSA+3DES:!MD5;
-        ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
-        ssl_prefer_server_ciphers on;
- 
 
-        location ~ / {
-        if ($http_upgrade != "Websocket") {
-           rewrite /(.*) / break;
+        ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:
+                    EECDH+ECDSA+AES128:EECDH+aRSA+AES128:
+                    RSA+AES128:EECDH+ECDSA+AES256:
+                    EECDH+aRSA+AES256:RSA+AES256:
+                    EECDH+ECDSA+3DES:EECDH+aRSA+3DES:
+                    RSA+3DES:!MD5;
+
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_prefer_server_ciphers on;
+
+        location / {
+            if ($http_upgrade != "websocket") {
+                rewrite ^/(.*)$ / break;
+            }
+
+            proxy_redirect off;
+            proxy_pass http://127.0.0.1:2024;
+
+            proxy_http_version 1.1;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header Host $host;
         }
-        proxy_redirect off;
-        proxy_pass http://127.0.0.1:2024;
-        proxy_http_version 1.1;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        }
-        }
-    
-    server { ## vmess
+    }
+
+    # =========================================================
+    # VMESS
+    # =========================================================
+    server {
         listen 2082;
         listen [::]:2082;
+
         listen 2083 ssl http2 reuseport;
         listen [::]:2083 ssl http2 reuseport;
 
@@ -218,28 +297,41 @@ http {
 
         ssl_certificate     /etc/xray/xray.crt;
         ssl_certificate_key /etc/xray/xray.key;
-        ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+ECDSA+AES128:EECDH+aRSA+AES128:RSA+AES128:EECDH+ECDSA+AES256:EECDH+aRSA+AES256:RSA+AES256:EECDH+ECDSA+3DES:EECDH+aRSA+3DES:RSA+3DES:!MD5;
-        ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
-        ssl_prefer_server_ciphers on;
- 
 
-        location ~ / {
-        if ($http_upgrade != "Websocket") {
-           rewrite /(.*) / break;
+        ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:
+                    EECDH+ECDSA+AES128:EECDH+aRSA+AES128:
+                    RSA+AES128:EECDH+ECDSA+AES256:
+                    EECDH+aRSA+AES256:RSA+AES256:
+                    EECDH+ECDSA+3DES:EECDH+aRSA+3DES:
+                    RSA+3DES:!MD5;
+
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_prefer_server_ciphers on;
+
+        location / {
+            if ($http_upgrade != "websocket") {
+                rewrite ^/(.*)$ / break;
+            }
+
+            proxy_redirect off;
+            proxy_pass http://127.0.0.1:2025;
+
+            proxy_http_version 1.1;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header Host $host;
         }
-        proxy_redirect off;
-        proxy_pass http://127.0.0.1:2025;
-        proxy_http_version 1.1;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        }
-        }
- 
+    }
+
+    # =========================================================
+    # WEB PANEL / PHP
+    # =========================================================
     server {
         listen 2081 ssl;
+        listen [::]:2081 ssl;
+
         server_name xxxxxx;
 
         ssl_certificate     /etc/xray/xray.crt;
@@ -250,26 +342,37 @@ http {
 
         root /home/vps/public_html;
 
+        index index.html index.htm index.php;
+
         location / {
-            index index.html index.htm index.php;
             try_files $uri $uri/ /index.php?$args;
         }
 
-        error_page 400 401 402 403 404 405 406 407 408 409 410
-                411 412 413 414 415 416 417 418 421 422 423 424 425 426 428 429
-                431 451
-                500 501 502 503 504 505 506 507 508 510 511
-                = @error_redirect;
-
-        location @error_redirect {
-                return 302 https://xxxxxx:2081/;
-        }
-
+        # PHP-FPM
         location ~ \.php$ {
             include /etc/nginx/fastcgi_params;
+
             fastcgi_pass 127.0.0.1:9000;
             fastcgi_index index.php;
+
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+
+        # Static files
+        location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf)$ {
+            expires 7d;
+            access_log off;
+        }
+
+        # Error pages
+        error_page 400 401 402 403 404 405 406 407 408 409 410
+                   411 412 413 414 415 416 417 418 421 422 423 424
+                   425 426 428 429 431 451
+                   500 501 502 503 504 505 506 507 508 510 511
+                   = @error_redirect;
+
+        location @error_redirect {
+            return 302 https://xxxxxx:2081/;
         }
     }
 }
