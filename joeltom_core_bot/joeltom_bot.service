@@ -1,12 +1,12 @@
 [Unit]
-Description=KATASHIE Bot Telegram C2
+Description=JOELTOM Bot Telegram C2
 After=network.target
 
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/etc/katashie_bot
-ExecStart=/usr/bin/python3 /etc/katashie_bot/katashie_bot.py
+WorkingDirectory=/etc/joeltom_bot
+ExecStart=/usr/bin/python3 /etc/katashie_bot/joeltom_bot.py
 Restart=always
 RestartSec=3
 
