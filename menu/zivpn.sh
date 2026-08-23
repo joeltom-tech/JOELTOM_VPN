@@ -1,18 +1,18 @@
 UI="/usr/local/lib/joeltom-ui.sh"; [ -f "$UI" ] && source "$UI"
 [ -f "$UI" ] && k_header "JOELTOM VPN • ZIVPN" || clear
-export LN='[34m'
-export BG='[44m'
-export NC='[0m'
-export GR='[32m'
-export RD='[31m'
+export LN='\e[34m'
+export BG='\e[44m'
+export NC='\e[0m'
+export GR='\e[32m'
+export RD='\e[31m'
 export DOMAIN=$(cat /etc/xray/domain)
 export MYIP=$(wget -qO- ipv4.icanhazip.com)
 add_zivpn() {
 clear
-echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
 echo -e "${LN}┃${NC} ${BG}               ADD ZIVPN ACCOUNT                ${NC} ${LN}┃${NC}"
-echo -e "${LN}┗━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
-echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━┓${NC}"
+echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
+echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
 while true; do
 read -rp "  Enter username: " user
 if [[ -z "$user" ]]; then
@@ -51,23 +51,21 @@ break
 done
 exp=$(date -d "+$days days" +"%Y-%m-%d")
 sed -i '/"config": \[/a\      "'"$pass"'",' /etc/zivpn/config.json
-sed -i ':a;N;$!ba;s/,
-[ 	]*]/
-    ]/' /etc/zivpn/config.json
+sed -i ':a;N;$!ba;s/,\n[         ]*]/\n    ]/' /etc/zivpn/config.json
 sed -i "1i$user $pass $exp" /etc/zivpn/user.db
 systemctl restart zivpn
 clear
 echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
 echo -e "${LN}┃${NC} ${BG}                  ZIVPN ACCOUNT                 ${NC} ${LN}┃${NC}"
 echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
-echo -e "${LN}┏━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-echo -e "${LN}┃${NC}  ${GREEN}User $user added successfully!${NC}"
+echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
+echo -e "${LN}┃${NC}  ${GR}User $user added successfully!${NC}"
 echo -e "${LN}┃${NC}"
 echo -e "${LN}┃${NC}  IPV4      : $MYIP"
 echo -e "${LN}┃${NC}  Domain    : $DOMAIN"
 echo -e "${LN}┃${NC}  Password  : $pass"
 echo -e "${LN}┃${NC}  Expiry    : $exp"
-echo -e "${LN}┗━━━━━━━━━━━━━━━━💻 𝑴𝑹𝑻𝑶𝑴 💻━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
+echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
 echo -e "${LN}●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●${NC}"
 echo ""
 read -n 1 -s -r -p " Press any key to return to menu..."
@@ -86,19 +84,17 @@ echo -e "${LN}●━━━━━━━━━━━━━━━━━━━━━
 echo ""
 read -n 1 -s -r -p "  Press any key to return..."
 menu_zivpn
+return
 fi
 echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}
-" "No." "Username" "Password" "Expiry"
+printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}\n" "No." "Username" "Password" "Expiry"
 echo -e "${LN}●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●${NC}"
 i=1
 while read -r line; do
 username=$(echo "$line" | awk '{print $1}')
 password=$(echo "$line" | awk '{print $2}')
-expiry=$(echo "$line" | awk '{print $3}' | tr -d '
-')
-printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}
-" "$i" "$username" "$password" "$expiry"
+expiry=$(echo "$line" | awk '{print $3}' | tr -d '\n')
+printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}\n" "$i" "$username" "$password" "$expiry"
 ((i++))
 done < /etc/zivpn/user.db
 echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
@@ -108,18 +104,20 @@ read -rp "  Enter username to delete: " user
 if [[ -z "$user" ]]; then
 echo -e "  [**] ${RD}Username cannot be empty.${NC}"
 menu_zivpn
+return
 fi
 line=$(awk -v u="$user" '$1==u {print; exit}' /etc/zivpn/user.db)
 if [[ -z "$line" ]]; then
 echo -e "  [**] ${RD}Username '$user' not found.${NC}"
 read -n 1 -s -r -p "  Press any key..."
 menu_zivpn
+return
 fi
 pass=$(echo "$line" | awk '{print $2}')
 sed -i "/\"$pass\"/d" /etc/zivpn/config.json
 sed -i "/^$user /d" /etc/zivpn/user.db
 systemctl restart zivpn
-echo -e "  [**] ${GREEN}User $user deleted successfully.${NC}"
+echo -e "  [**] ${GR}User $user deleted successfully.${NC}"
 echo -e "${LN}●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●${NC}"
 echo ""
 read -n 1 -s -r -p "  Press any key to return to menu..."
@@ -138,19 +136,17 @@ echo -e "${LN}●━━━━━━━━━━━━━━━━━━━━━
 echo ""
 read -n 1 -s -r -p "  Press any key to return..."
 menu_zivpn
+return
 fi
 echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}
-" "No." "Username" "Password" "Expiry"
+printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}\n" "No." "Username" "Password" "Expiry"
 echo -e "${LN}●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●${NC}"
 i=1
 while read -r line; do
 username=$(echo "$line" | awk '{print $1}')
 password=$(echo "$line" | awk '{print $2}')
-expiry=$(echo "$line" | awk '{print $3}' | tr -d '
-')
-printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}
-" "$i" "$username" "$password" "$expiry"
+expiry=$(echo "$line" | awk '{print $3}' | tr -d '\n')
+printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}\n" "$i" "$username" "$password" "$expiry"
 ((i++))
 done < /etc/zivpn/user.db
 echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
@@ -159,29 +155,31 @@ read -rp "  Enter username to renew: " user
 if [[ -z "$user" ]]; then
 echo -e "  ${RD}Username cannot be empty.${NC}"
 menu_zivpn
+return
 fi
 line=$(awk -v u="$user" '$1==u {print; exit}' /etc/zivpn/user.db)
 if [[ -z "$line" ]]; then
 echo -e "  ${RD}Username '$user' not found.${NC}"
 read -n 1 -s -r -p "  Press any key..."
 menu_zivpn
+return
 fi
-current_exp=$(echo "$line" | awk '{print $3}' | tr -d '
-')
+current_exp=$(echo "$line" | awk '{print $3}' | tr -d '\n')
 read -rp "  Enter additional days: " add_days
 if [[ -z "$add_days" || ! "$add_days" =~ ^[0-9]+$ || "$add_days" -le 0 ]]; then
 echo -e "  ${RD}Invalid number of days.${NC}"
 menu_zivpn
+return
 fi
 new_exp=$(date -d "$current_exp +$add_days days" +"%Y-%m-%d")
 password=$(echo "$line" | awk '{print $2}')
-sed -i "/^$user /c\$user $password $new_exp" /etc/zivpn/user.db
+sed -i "/^$user /c\\$user $password $new_exp" /etc/zivpn/user.db
 clear
 echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
 echo -e "${LN}┃${NC} ${BG}                  ZIVPN MENU                    ${NC} ${LN}┃${NC}"
 echo -e "${LN}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
 echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-echo -e "${LN}┃${NC} ${GREEN}User $user renewed successfully!${NC}"
+echo -e "${LN}┃${NC} ${GR}User $user renewed successfully!${NC}"
 echo -e "${LN}┃${NC}"
 echo -e "${LN}┃${NC} Username   : $user"
 echo -e "${LN}┃${NC} Old expiry : $current_exp"
@@ -202,16 +200,14 @@ echo -e "${LN}┏━━━━━━━━━━━━━━━━━━━━━
 if [[ ! -s /etc/zivpn/user.db ]]; then
 echo -e "${LN}┃${NC} [**] No users found."
 else
-printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}
-" "No." "Username" "Password" "Expiry"
+printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}\n" "No." "Username" "Password" "Expiry"
 echo -e "${LN}●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●${NC}"
 i=1
 while read -r line; do
 user=$(echo "$line" | awk '{print $1}')
 pass=$(echo "$line" | awk '{print $2}')
 exp=$(echo "$line" | awk '{print $3}')
-printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}
-" "$i" "$user" "$pass" "$exp"
+printf "${LN}┃ %-5s %-15s %-15s %-10s ${NC}\n" "$i" "$user" "$pass" "$exp"
 ((i++))
 done < /etc/zivpn/user.db
 fi
