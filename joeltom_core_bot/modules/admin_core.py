@@ -1,6 +1,6 @@
 import json
 
-CONFIG_FILE = '/etc/katashie_bot/config.json'
+CONFIG_FILE = '/etc/joeltom_bot/config.json'
 
 def get_config():
     with open(CONFIG_FILE, 'r') as f: return json.load(f)
