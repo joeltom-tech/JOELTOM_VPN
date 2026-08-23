@@ -1,5 +1,5 @@
-UI="/usr/local/lib/katashie-ui.sh"; [ -f "$UI" ] && source "$UI"
-[ -f "$UI" ] && k_header "KATASHIE VPN • FASTDNS" || clear
+UI="/usr/local/lib/joeltom-ui.sh"; [ -f "$UI" ] && source "$UI"
+[ -f "$UI" ] && k_header "JOELTOM VPN • FASTDNS" || clear
 export LN='[34m'
 export BG='[44m'
 export NC='[0m'
