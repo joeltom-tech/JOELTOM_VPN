@@ -1,0 +1,13 @@
+# V2RAY-DNS configuration
+/etc/joeltom-vpn/telegram.conf
+/etc/joeltom-vpn/v2ray-dns-telegram.conf
+
+# V2RAY-DNS data
+/var/lib/joeltom-vpn/v2ray-dns/accounts.db
+/var/lib/joeltom-vpn/v2ray-dns/*.json
+
+# V2RAY-DNS logs
+/var/log/joeltom-vpn/v2ray-dns.log*
+
+# Temporary files
+/tmp/*v2ray-dns*
