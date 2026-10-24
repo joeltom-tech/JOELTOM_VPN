@@ -1,6 +1,6 @@
 <div align="center"><img src="assets/joeltom-banner.svg" alt="JOELTOM VPN" width="96%">
 
-# JOELTOM VPN
+# JOELTOM VPN ,
 
 ⚡ **PREMIUM VPS • MULTI-PROTOCOL • WEB PANEL • AUTOMATION**
 
